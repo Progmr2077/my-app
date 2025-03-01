@@ -7,7 +7,7 @@ export default function MainNav() {
       <Navbar className="fixed-top navbar-dark bg-dark">
         <Container>
           {/* Brand/Logo */}
-          <Navbar.Brand>Your Name</Navbar.Brand>
+          <Navbar.Brand>Jacob Rivera</Navbar.Brand>
 
           {/* Navigation Links */}
           <Nav>
