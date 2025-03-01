@@ -1,23 +1,31 @@
-import { Container, Nav, Navbar } from 'react-bootstrap';
 import Link from 'next/link';
+import { Navbar, Container, Nav } from 'react-bootstrap';
 
 export default function MainNav() {
-    return (
-        <>
-            <Navbar className="fixed-top navbar-dark bg-dark">
-                <Container>
-                    <Navbar.Brand>Jacob Rivera</Navbar.Brand>
-                    <Nav>
-                        <Link href="/" passHref>
-                            <Nav.Link>Movies</Nav.Link>
-                        </Link>
-                        <Link href="/about" passHref>
-                            <Nav.Link>About</Nav.Link>
-                        </Link>
-                    </Nav>
-                </Container>
-            </Navbar>
-            <br /><br />
-        </>
-    );
+  return (
+    <>
+      <Navbar className="fixed-top navbar-dark bg-dark">
+        <Container>
+          {/* Brand/Logo */}
+          <Navbar.Brand>Your Name</Navbar.Brand>
+
+          {/* Navigation Links */}
+          <Nav>
+            {/* Movies Link */}
+            <Link href="/" passHref legacyBehavior>
+              <Nav.Link>Movies</Nav.Link>
+            </Link>
+
+            {/* About Link */}
+            <Link href="/about" passHref legacyBehavior>
+              <Nav.Link>About</Nav.Link>
+            </Link>
+          </Nav>
+        </Container>
+      </Navbar>
+
+      {/* Add spacing below the fixed navbar */}
+      <br /><br />
+    </>
+  );
 }
