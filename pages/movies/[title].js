@@ -1,26 +1,21 @@
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import PageHeader from '@/components/PageHeader';
+import useSWR from 'swr';
 import MovieDetails from '@/components/MovieDetails';
+import Error from 'next/error';
+import PageHeader from '@/components/PageHeader';
 
 export default function Movie() {
     const router = useRouter();
     const { title } = router.query;
-    const [movie, setMovie] = useState(null);
 
-    useEffect(() => {
-        if (title) {
-            // Fetch movie details from the API
-            fetch(`/api/movies?title=${encodeURIComponent(title)}`)
-                .then((res) => res.json())
-                .then((data) => setMovie(data[0])) // Assuming the API returns an array
-                .catch((error) => console.error('Error fetching movie:', error));
-        }
-    }, [title]);
+    // Fetch data using SWR
+    const { data, error } = useSWR(title ? `/api/movies?title=${encodeURIComponent(title)}` : null);
 
-    if (!movie) {
-        return <p>Loading...</p>;
-    }
+    if (!data) return null; // Don't render anything while loading
+    if (error) return <Error statusCode={500} />;
+    if (data.length === 0) return <Error statusCode={404} />;
+
+    const movie = data[0];
 
     return (
         <>
