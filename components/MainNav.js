@@ -6,7 +6,7 @@ export default function MainNav() {
         <>
             <Navbar className="fixed-top navbar-dark bg-dark">
                 <Container>
-                    <Navbar.Brand>Student Name</Navbar.Brand>
+                    <Navbar.Brand>Jacob Rivera</Navbar.Brand>
                     <Nav>
                         <Link href="/" passHref>
                             <Nav.Link>Movies</Nav.Link>
