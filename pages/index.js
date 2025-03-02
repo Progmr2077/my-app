@@ -1,34 +1,62 @@
-import PageHeader from '@/components/PageHeader';
+/*********************************************************************************
+* WEB422 – Assignment 3
+* I declare that this assignment is my own work in accordance with Seneca Academic Policy.
+* No part of this assignment has been copied manually or electronically from any other source
+* (including web sites) or distributed to other students.
+*
+* Name: ______________________ Student ID: __________________ Date: ____________________
+*
+*
+********************************************************************************/
 import useSWR from 'swr';
-import { Card, Row, Col, Container } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
+import { Pagination, Accordion } from 'react-bootstrap';
+import MovieDetails from '@/components/MovieDetails';
+import PageHeader from '@/components/PageHeader';
 
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
-export default function Home() {
-  const { data, error } = useSWR('/api/movies?page=1&perPage=10', fetcher);
+const Home = () => {
+  const [page, setPage] = useState(1);
+  const [pageData, setPageData] = useState([]);
+  const { data, error } = useSWR(`/api/movies?page=${page}&perPage=10`, fetcher);
 
-  if (error) return <p>Failed to load movies.</p>;
-  if (!data) return <p>Loading...</p>;
+  useEffect(() => {
+    if (data) {
+      setPageData(data);
+    }
+  }, [data]);
+
+  const previous = () => {
+    if (page > 1) setPage(page - 1);
+  };
+
+  const next = () => {
+    setPage(page + 1);
+  };
 
   return (
-    <>
-      {/* Page Header */}
-      <PageHeader text="Film Collection : Sorted By Date" />
-
-      <Container>
-        <Row>
-          {data.map((movie) => (
-            <Col key={movie._id} md={4}>
-              <Card>
-                <Card.Body>
-                  <Card.Title>{movie.title}</Card.Title>
-                  <Card.Text>{movie.fullplot}</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      </Container>
-    </>
+    <div>
+      <PageHeader text="Film Collection : Sorted by Date" />
+      <Accordion>
+        {pageData.map((movie) => (
+          <Accordion.Item eventKey={movie._id} key={movie._id}>
+            <Accordion.Header>
+              <strong>{movie.title}</strong> ({movie.year}) - {movie.directors.join(', ')}
+            </Accordion.Header>
+            <Accordion.Body>
+              <MovieDetails movie={movie} />
+            </Accordion.Body>
+          </Accordion.Item>
+        ))}
+      </Accordion>
+      <Pagination>
+        <Pagination.Prev onClick={previous} />
+        <Pagination.Item>{page}</Pagination.Item>
+        <Pagination.Next onClick={next} />
+      </Pagination>
+    </div>
   );
-}
+};
+
+export default Home;

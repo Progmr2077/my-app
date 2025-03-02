@@ -22,12 +22,12 @@ export default function About({ movie }) {
 }
 
 export async function getStaticProps() {
-    const res = await fetch("https://your-vercel-app-url/api/movies/573a139bf29313caabcf3d23");
-    const data = await res.json();
+    const res = await fetch("https://your-api-url/api/movies/573a139bf29313caabcf3d23");
+    const movie = await res.json();
 
     return {
         props: {
-            movie: data,
+            movie,
         },
     };
 }
