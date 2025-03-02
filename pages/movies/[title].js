@@ -1,23 +1,21 @@
-import { useRouter } from 'next/router';
-import useSWR from 'swr';
-import MovieDetails from '@/components/MovieDetails';
-import PageHeader from '@/components/PageHeader';
+import { useRouter } from "next/router";
+import useSWR from "swr";
+import MovieDetails from "@/components/MovieDetails";
+import PageHeader from "@/components/PageHeader";
 
-export default function Movie() {
-  const router = useRouter();
-  const { title } = router.query;
+export default function Movie({ movie }) {
+    const router = useRouter();
+    const { title } = router.query;
+    const { data, error } = useSWR(`/api/movies?title=${title}`);
 
-  const { data, error } = useSWR(title ? `/api/movies?title=${encodeURIComponent(title)}` : null);
+    if (error) return <p>Error loading movie details.</p>;
+    if (!data) return <p>Loading...</p>;
+    if (data.length === 0) return <p>Movie Not Found</p>;
 
-  if (!data) return <div>Loading...</div>;
-  if (error) return <div>Error loading movie.</div>;
-
-  const movie = data[0]; // Assuming the API returns an array of movies
-
-  return (
-    <>
-      <PageHeader text={`Movie: ${movie.title}`} />
-      <MovieDetails movie={movie} />
-    </>
-  );
+    return (
+        <>
+            <PageHeader text={data[0].title} />
+            <MovieDetails movie={data[0]} />
+        </>
+    );
 }
