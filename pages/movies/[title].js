@@ -3,10 +3,10 @@ import useSWR from "swr";
 import MovieDetails from "@/components/MovieDetails";
 import PageHeader from "@/components/PageHeader";
 
-export default function Movie({ movie }) {
+export default function Movie() {
     const router = useRouter();
     const { title } = router.query;
-    const { data, error } = useSWR(`/api/movies?title=${title}`);
+    const { data, error } = useSWR(title ? `/api/movies?title=${title}` : null);
 
     if (error) return <p>Error loading movie details.</p>;
     if (!data) return <p>Loading...</p>;
