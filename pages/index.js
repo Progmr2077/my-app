@@ -14,18 +14,18 @@ import { Pagination, Accordion } from 'react-bootstrap';
 import MovieDetails from '@/components/MovieDetails';
 import PageHeader from '@/components/PageHeader';
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url) => fetch(url, { headers: { 'Cache-Control': 'no-cache' } }).then((res) => res.json());
 
 const Home = () => {
   const [page, setPage] = useState(1);
   const [pageData, setPageData] = useState([]);
-  const { data, error } = useSWR(`/api/movies?page=${page}&perPage=10`, fetcher);
+  const { data, error } = useSWR(`/api/movies?page=${page}&perPage=10`, fetcher, { revalidateOnFocus: false });
 
   useEffect(() => {
     if (data) {
       setPageData(data);
     }
-  }, [data]);
+  }, [data, page]);
 
   const previous = () => {
     if (page > 1) setPage(page - 1);
