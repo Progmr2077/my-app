@@ -25,7 +25,7 @@ export default function About({ movie }) {
 }
 
 export async function getStaticProps() {
-    const res = await fetch("http://localhost:3000/api/movies/573a139bf29313caabcf3d23");
+    const res = await fetch("http://localhost:3000/api/movies?id=573a139bf29313caabcf3d23");
     const movie = await res.json();
 
     return {
