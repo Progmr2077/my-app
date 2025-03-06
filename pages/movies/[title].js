@@ -3,6 +3,8 @@ import useSWR from 'swr';
 import MovieDetails from '@/components/MovieDetails';
 import Error from 'next/error';
 import PageHeader from '@/components/PageHeader';
+import { Suspense } from 'react';
+import { Spinner } from 'react-bootstrap';
 
 const Movie = () => {
   const router = useRouter();
@@ -20,7 +22,9 @@ const Movie = () => {
       {data.map((movie) => (
         <div key={movie._id}>
           <PageHeader text={movie.title} />
-          <MovieDetails movie={movie} />
+          <Suspense fallback={<Spinner animation="border" />}>
+            <MovieDetails movie={movie} />
+          </Suspense>
         </div>
       ))}
     </div>

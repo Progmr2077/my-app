@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Card } from "react-bootstrap";
+import { Card, Spinner } from "react-bootstrap";
 import MovieDetails from "@/components/MovieDetails";
 import PageHeader from "@/components/PageHeader";
+import { Suspense } from "react";
 
 export default function About({ movie }) {
     return (
@@ -15,14 +16,16 @@ export default function About({ movie }) {
                         {movie.title}
                     </Link>
                 </Card.Body>
-                <MovieDetails movie={movie} />
+                <Suspense fallback={<Spinner animation="border" />}>
+                    <MovieDetails movie={movie} />
+                </Suspense>
             </Card>
         </>
     );
 }
 
 export async function getStaticProps() {
-    const res = await fetch("https://your-api-url/api/movies/573a139bf29313caabcf3d23");
+    const res = await fetch("http://localhost:3000/api/movies/573a139bf29313caabcf3d23");
     const movie = await res.json();
 
     return {

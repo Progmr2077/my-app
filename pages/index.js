@@ -9,8 +9,8 @@
 *
 ********************************************************************************/
 import useSWR from 'swr';
-import { useState, useEffect } from 'react';
-import { Pagination, Accordion } from 'react-bootstrap';
+import { useState, useEffect, Suspense } from 'react';
+import { Pagination, Accordion, Spinner } from 'react-bootstrap';
 import MovieDetails from '@/components/MovieDetails';
 import PageHeader from '@/components/PageHeader';
 
@@ -25,7 +25,7 @@ const Home = () => {
     if (data) {
       setPageData(data);
     }
-  }, [data, page]);
+  }, [data]);
 
   const previous = () => {
     if (page > 1) setPage(page - 1);
@@ -38,18 +38,20 @@ const Home = () => {
   return (
     <div>
       <PageHeader text="Film Collection : Sorted by Date" />
-      <Accordion>
-        {pageData.map((movie) => (
-          <Accordion.Item eventKey={movie._id} key={movie._id}>
-            <Accordion.Header>
-              <strong>{movie.title}</strong> ({movie.year}) - {movie.directors.join(', ')}
-            </Accordion.Header>
-            <Accordion.Body>
-              <MovieDetails movie={movie} />
-            </Accordion.Body>
-          </Accordion.Item>
-        ))}
-      </Accordion>
+      <Suspense fallback={<Spinner animation="border" />}>
+        <Accordion>
+          {pageData.map((movie) => (
+            <Accordion.Item eventKey={movie._id} key={movie._id}>
+              <Accordion.Header>
+                <strong>{movie.title}</strong> ({movie.year}) - {movie.directors.join(', ')}
+              </Accordion.Header>
+              <Accordion.Body>
+                <MovieDetails movie={movie} />
+              </Accordion.Body>
+            </Accordion.Item>
+          ))}
+        </Accordion>
+      </Suspense>
       <Pagination>
         <Pagination.Prev onClick={previous} />
         <Pagination.Item>{page}</Pagination.Item>
