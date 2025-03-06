@@ -7,10 +7,10 @@ import { Suspense } from "react";
 export default function About({ movie }) {
     return (
         <>
-            <PageHeader text="About the Developer - Your Name" />
+            <PageHeader text="About the Developer - Jacob Rivera" />
             <Card>
                 <Card.Body>
-                    <p>Hi, I'm Your Name, a web developer passionate about building interactive web applications.</p>
+                    <p>Hi, I'm Jacob Rivera, a web developer passionate about building interactive web applications.</p>
                     <p>Here's a movie I like:</p>
                     <Link href={`/movies/${movie.title}`} passHref>
                         {movie.title}

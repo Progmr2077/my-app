@@ -4,9 +4,7 @@
 * No part of this assignment has been copied manually or electronically from any other source
 * (including web sites) or distributed to other students.
 *
-* Name: ______________________ Student ID: __________________ Date: ____________________
-*
-*
+* Name: Jacob Rivera Student ID: 109641233 Date: March 5th, 2025*
 ********************************************************************************/
 import useSWR from 'swr';
 import { useState, useEffect, Suspense } from 'react';
